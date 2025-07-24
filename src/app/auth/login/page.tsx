@@ -27,9 +27,9 @@ export default function LoginPage() {
   }
 
 return (
-  <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 to-blue-500 px-4">
+<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-700 to-indigo-900 px-4">
     <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-8">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">FedEReady Login</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Login</h1>
 
       <input
         type="email"
@@ -46,16 +46,26 @@ return (
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
+      <p className="text-right text-sm mb-4">
+  <a href="/auth/reset" className="text-blue-600 underline">
+    Forgot password?
+  </a>
+</p>
       {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       <button
         onClick={handleLogin}
         disabled={loading}
-        className="w-full py-2 rounded-md bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold hover:opacity-90 transition"
+className="w-full py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold hover:opacity-90 transition"
       >
         {loading ? 'Logging in...' : 'Log In'}
       </button>
+      <p className="mt-4 text-center text-sm text-gray-700">
+  Don&#39;t have an account?{' '}
+  <a href="/auth/signup" className="text-blue-600 underline">
+    Sign up
+  </a>
+</p>
     </div>
   </div>
 )
