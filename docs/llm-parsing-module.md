@@ -19,24 +19,6 @@ This module powers features like parsing pasted federal experience descriptions 
 
 ---
 
-## 🔧 Core Use Case
-
-**Input**: A freeform pasted job description from USAJobs  
-**Output**: A validated JSON object like:
-
-```json
-{
-	"title": "Program Analyst",
-	"agency": "Department of Veterans Affairs",
-	"description": "Responsible for coordinating and analyzing program operations...",
-	"level": "GS-11",
-	"start_date": "2019-06",
-	"end_date": "2023-01"
-}
-```
-
----
-
 ## 🏗️ Architecture
 
 ```txt
@@ -127,3 +109,30 @@ To control cost and avoid abuse:
 ## 🚀 Why It Matters
 
 This module demonstrates thoughtful modular architecture, cost-aware client design, and scalable prompt-driven parsing—all key skills in modern AI-enhanced app development.
+
+---
+
+## 🧪 How to Use
+
+To use the LLM Parsing Module in your app, you can call the core `parseWithLLM` function with the appropriate options:
+
+### Basic Usage with `parseWithLLM`
+
+```ts
+import { parseWithLLM } from '@/lib/llm-parser'
+
+const result = await parseWithLLM({
+	provider: 'openai',
+	instanceId: 'gpt-3.5-turbo',
+	promptId: 'federal-experience',
+	input: userInput, // freeform text (e.g., pasted job description)
+	mode: 'json',
+})
+```
+
+This will:
+
+- Fetch the prompt from Supabase using the given `promptId`
+- Inject the user’s `input` into the prompt
+- Call the appropriate LLM instance (e.g., GPT-3.5)
+- Return either parsed JSON or raw text depending on `mode`
