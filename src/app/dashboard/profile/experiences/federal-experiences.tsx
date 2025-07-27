@@ -5,7 +5,10 @@ import { supabase } from '@/lib/supabase'
 import { Experience, ExperienceInput } from '@/types/experience'
 import { ExperienceForm } from './experience-form'
 import { ExperienceCard } from './experience-card'
-import { testGPT4FedExp } from '@/lib/llm-parser/test-gpt'
+import { useExperiences } from '@/app/hooks/use-experience'
+import { useAddExperience } from '@/app/hooks/use-add-experience'
+import Spinner from '@/app/components/ui/spinner'
+import { useQueryClient } from '@tanstack/react-query'
 
 const emptyExperience: ExperienceInput = {
 	title: '',
@@ -18,63 +21,39 @@ const emptyExperience: ExperienceInput = {
 }
 
 export default function FederalExperiences() {
-	const [experiences, setExperiences] = useState<Experience[]>([])
+	const queryClient = useQueryClient()
+	const [userId, setUserId] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [adding, setAdding] = useState(false)
 	const [newExperience, setNewExperience] =
 		useState<ExperienceInput>(emptyExperience)
 
+	// Get user session on mount
 	useEffect(() => {
-		testGPT4FedExp()
+		const getUser = async () => {
+			const { data: sessionData } = await supabase.auth.getSession()
+			setUserId(sessionData?.session?.user.id ?? null)
+		}
+		getUser()
 	}, [])
 
-	const fetchExperiences = async () => {
-		const {
-			data: { session },
-		} = await supabase.auth.getSession()
+	const { data: experiences, isLoading: isFetching } = useExperiences(
+		userId || undefined
+	)
+	const addExperience = useAddExperience(userId ?? '')
 
-		const userId = session?.user?.id
-
-		const { data, error } = await supabase
-			.from('experiences')
-			.select('*')
-			.eq('user_id', userId)
-			.order('current', { ascending: false }) // current:true first
-			.order('start_date', { ascending: false, nullsFirst: false })
-
-		if (!error) setExperiences(data as Experience[])
-	}
-
-	const addExperience = async () => {
-		setLoading(true)
-
-		const user = await supabase.auth.getUser()
-
-		const payload = {
-			...newExperience,
-			user_id: user.data.user?.id,
-			start_date: newExperience.start_date || null,
-			end_date: newExperience.current ? null : newExperience.end_date || null,
-		}
-
-		const { data, error } = await supabase
-			.from('experiences')
-			.insert([payload])
-			.select()
-		setLoading(false)
-
-		if (!error && data && data.length > 0) {
-			setExperiences((prev) => [...prev, data[0]]) // ⬅️ Add to bottom of list
-			setNewExperience(emptyExperience) // ⬅️ Reset form
-			setAdding(false) // ⬅️ Collapse form
-		} else {
-			console.error('Supabase insert error:', error)
+	const handleAdd = async () => {
+		try {
+			setLoading(true)
+			await addExperience.mutateAsync(newExperience)
+			setNewExperience(emptyExperience)
+			setAdding(false)
+		} catch (e) {
+			console.error('Add failed', e)
+		} finally {
+			setLoading(false)
 		}
 	}
-
-	useEffect(() => {
-		fetchExperiences()
-	}, [])
 
 	return (
 		<div className="min-h-screen p-6">
@@ -82,23 +61,37 @@ export default function FederalExperiences() {
 				Your Federal Experience
 			</h2>
 
-			<div className="grid gap-4">
-				{experiences.map((exp) => (
-					<ExperienceCard
-						key={exp.id}
-						exp={exp}
-						onDelete={fetchExperiences}
-						onUpdate={fetchExperiences}
-					/>
-				))}
-			</div>
+			{isFetching ? (
+				<Spinner />
+			) : (
+				<div className="grid gap-4">
+					{experiences?.map((exp) => (
+						<ExperienceCard
+							userId={userId || undefined}
+							key={exp.id}
+							exp={exp}
+							onDelete={() =>
+								queryClient.invalidateQueries({
+									queryKey: ['experiences', userId || undefined],
+								})
+							}
+							onUpdate={() =>
+								queryClient.invalidateQueries({
+									queryKey: ['experiences', userId || undefined],
+								})
+							}
+						/>
+					))}
+				</div>
+			)}
+
 			{adding ? (
 				<div className="bg-white shadow-md rounded-lg p-4 border border-gray-100 mb-4">
 					<ExperienceForm
 						formType="add"
 						experience={newExperience}
 						setExperience={setNewExperience}
-						onSave={addExperience}
+						onSave={handleAdd}
 						onCancel={() => {
 							setAdding(false)
 							setNewExperience(emptyExperience)
