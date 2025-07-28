@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { UserRole } from '@/types/user'
-import { useUserRole } from '../hooks/use-user-role'
+import { useUser } from '../hooks/use-user'
 
 export default function DashboardLayout({
 	children,
@@ -25,7 +25,7 @@ export default function DashboardLayout({
 	const pathname = usePathname()
 	const [loading, setLoading] = useState(true)
 	const session = useSession()
-	const { role, loading: roleLoading } = useUserRole()
+	const { user, loading: userLoading } = useUser()
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -39,7 +39,7 @@ export default function DashboardLayout({
 		return () => clearTimeout(timeout)
 	}, [session, router])
 
-	if (loading || roleLoading) {
+	if (loading || userLoading) {
 		return (
 			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-800">
 				<div className="text-base font-medium mb-2">Checking session...</div>
@@ -52,7 +52,7 @@ export default function DashboardLayout({
 		{ name: 'Home', href: '/dashboard', icon: HomeIcon },
 		{ name: 'Profile', href: '/dashboard/profile', icon: UserIcon },
 		{ name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon },
-		...(role === UserRole.Admin
+		...(user?.role === UserRole.Admin
 			? [
 					{
 						name: 'AI Actions',

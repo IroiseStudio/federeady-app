@@ -5,10 +5,11 @@ import { supabase } from '@/lib/supabase'
 import { Experience, ExperienceInput } from '@/types/experience'
 import { ExperienceForm } from './experience-form'
 import { ExperienceCard } from './experience-card'
-import { useExperiences } from '@/app/hooks/use-experience'
+import { useExperiences } from '@/app/hooks/use-experiences'
 import { useAddExperience } from '@/app/hooks/use-add-experience'
 import Spinner from '@/app/components/ui/spinner'
 import { useQueryClient } from '@tanstack/react-query'
+import { AddCard } from '@/app/components/ui/add-card'
 
 const emptyExperience: ExperienceInput = {
 	title: '',
@@ -100,12 +101,7 @@ export default function FederalExperiences() {
 					/>
 				</div>
 			) : (
-				<div
-					className="cursor-pointer bg-white border border-dashed border-gray-300 rounded-lg p-4 text-center text-gray-600 hover:shadow-md transition"
-					onClick={() => setAdding(true)}
-				>
-					+ Add New Experience
-				</div>
+				<AddCard onClick={() => setAdding(true)}>+ Add New Experience</AddCard>
 			)}
 		</div>
 	)

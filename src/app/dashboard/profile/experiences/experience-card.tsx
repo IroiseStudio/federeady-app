@@ -7,6 +7,8 @@ import { ConfirmDialog } from '@/app/components/dialogs/confirm-dialog'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid'
 import { ExperienceForm } from './experience-form'
 import { useUpdateExperience } from '@/app/hooks/use-update_experience'
+import { useDeleteExperience } from '@/app/hooks/use-delete-experience'
+import { Card } from '@/app/components/ui/card'
 
 interface ExperienceCardProps {
 	userId: string | undefined
@@ -34,41 +36,19 @@ export function ExperienceCard({
 		current: exp.current || false,
 	})
 	const updateExperience = useUpdateExperience(userId)
+	const deleteExperience = useDeleteExperience(userId)
 
-	const handleDelete = async () => {
-		const { error } = await supabase
-			.from('experiences')
-			.delete()
-			.eq('id', exp.id)
-		if (!error) onDelete()
-		setShowConfirm(false)
+	const handleDelete = () => {
+		deleteExperience.mutate(exp.id, {
+			onSuccess: () => {
+				onDelete?.()
+				setShowConfirm(false)
+			},
+			onError: (err) => {
+				console.error('Failed to delete experience:', err)
+			},
+		})
 	}
-
-	// const handleUpdate = async () => {
-	//   setLoading(true);
-
-	//   const payload = {
-	//     ...editedExperience,
-	//     start_date: editedExperience.start_date || null,
-	//     end_date: editedExperience.current
-	//       ? null
-	//       : editedExperience.end_date || null,
-	//   };
-
-	//   const { error } = await supabase
-	//     .from("experiences")
-	//     .update(payload)
-	//     .eq("id", exp.id);
-
-	//   if (!error) {
-	//     setEditMode(false);
-	//     onUpdate?.();
-	//   } else {
-	//     console.error("Supabase update error:", error.message);
-	//   }
-
-	//   setLoading(false);
-	// };
 
 	const handleUpdate = async () => {
 		setLoading(true)
@@ -99,7 +79,7 @@ export function ExperienceCard({
 		: ''
 
 	return (
-		<div className="bg-white shadow-md rounded-lg p-4 border border-gray-100 mb-4">
+		<Card>
 			{editMode ? (
 				<ExperienceForm
 					experience={editedExperience}
@@ -170,6 +150,6 @@ export function ExperienceCard({
 					cancelText="Cancel"
 				/>
 			)}
-		</div>
+		</Card>
 	)
 }

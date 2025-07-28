@@ -225,12 +225,13 @@ export function ExperienceForm({
 			) : (
 				<div className="text-sm text-gray-600">
 					<p className="mt-2 italic text-xs text-gray-400">
-						Paste a job description. AI will extract the title, agency,
-						anddetails.
+						Paste a job description. AI will extract the title, agency, and
+						details.
 					</p>
 					<p className="text-xs text-red-500 mt-1">
-						⚠️ Please do not paste any Personally Identifiable Information
-						(PII).
+						⚠️ You are responsible for the content you enter. Please avoid
+						including any personally identifiable information (PII),
+						confidential, or sensitive data.
 					</p>
 					<textarea
 						className="input min-h-[150px]"

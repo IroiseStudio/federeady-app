@@ -4,7 +4,13 @@ export function parseRaw(response: string): string {
 
 export function parseJson(response: string): any {
 	try {
-		return JSON.parse(response)
+		const cleaned = response
+			.trim()
+			.replace(/^```(?:json)?/i, '')
+			.replace(/```$/, '')
+			.trim()
+
+		return JSON.parse(cleaned)
 	} catch (e) {
 		console.warn('⚠️ Failed to parse JSON:', e)
 		return null
