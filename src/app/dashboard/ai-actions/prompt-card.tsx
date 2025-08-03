@@ -1,19 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Prompt } from '@/types/prompt'
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { PencilIcon } from '@heroicons/react/24/solid'
 import { Card } from '@/app/components/ui/card'
 import { useUpdatePrompt } from '@/app/hooks/use-update-prompt'
 
-export function PromptCard({
-	prompt,
-	onSave,
-}: {
-	prompt: Prompt
-	onSave: () => void
-}) {
+export function PromptCard({ prompt }: { prompt: Prompt; onSave: () => void }) {
 	const [form, setForm] = useState(prompt)
 	const [editing, setEditing] = useState(false)
 	const updatePrompt = useUpdatePrompt()

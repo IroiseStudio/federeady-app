@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase'
 
 export function AddPromptButton({ onCreate }: { onCreate: () => void }) {
 	const handleCreate = async () => {
-		const { data, error } = await supabase.from('prompts').insert({
+		const {} = await supabase.from('prompts').insert({
 			id: crypto.randomUUID(),
 			label: 'New Prompt',
 			description: '',

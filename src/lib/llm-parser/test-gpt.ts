@@ -7,8 +7,12 @@ export async function testLLMGeneric(options: ParseOptions) {
 	try {
 		const result = await parseWithLLM(options)
 		console.log('✅ LLM Output:', result)
-	} catch (err: any) {
-		console.error('❌ LLM Error:', err.message)
+	} catch (err: unknown) {
+		if (err instanceof Error) {
+			console.error('❌ LLM Error:', err.message)
+		} else {
+			console.error('❌ Unknown error:', err)
+		}
 	}
 }
 

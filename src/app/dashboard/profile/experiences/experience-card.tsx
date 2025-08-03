@@ -16,12 +16,7 @@ interface ExperienceCardProps {
 	onUpdate?: () => void
 }
 
-export function ExperienceCard({
-	userId,
-	exp,
-	onDelete,
-	onUpdate,
-}: ExperienceCardProps) {
+export function ExperienceCard({ userId, exp, onDelete }: ExperienceCardProps) {
 	const [showConfirm, setShowConfirm] = useState(false)
 	const [editMode, setEditMode] = useState(false)
 	const [loading, setLoading] = useState(false)
