@@ -10,6 +10,6 @@ export interface User {
 	auth?: {
 		email?: string
 		provider?: string
-		[key: string]: any
+		[key: string]: unknown
 	}
 }
