@@ -1,8 +1,8 @@
-export function parseRaw(response: string): string {
-	return response
+export function parseRaw<T = string>(response: string): T {
+	return response as T
 }
 
-export function parseJson(response: string): any {
+export function parseJson<T = unknown>(response: string): T | null {
 	try {
 		const cleaned = response
 			.trim()
@@ -10,7 +10,7 @@ export function parseJson(response: string): any {
 			.replace(/```$/, '')
 			.trim()
 
-		return JSON.parse(cleaned)
+		return JSON.parse(cleaned) as T
 	} catch (e) {
 		console.warn('⚠️ Failed to parse JSON:', e)
 		return null

@@ -14,7 +14,9 @@ export interface ParseOptions {
 	maxTokens?: number
 }
 
-export async function parseWithLLM(opts: ParseOptions): Promise<any> {
+export async function parseWithLLM<T = unknown>(
+	opts: ParseOptions
+): Promise<T> {
 	if (isQuotaExceeded()) {
 		throw new Error('Monthly usage limit reached')
 	}
@@ -34,5 +36,5 @@ export async function parseWithLLM(opts: ParseOptions): Promise<any> {
 
 	incrementUsage()
 
-	return mode === 'json' ? parseJson(response) : parseRaw(response)
+	return mode === 'json' ? parseJson<T>(response)! : parseRaw<T>(response)
 }

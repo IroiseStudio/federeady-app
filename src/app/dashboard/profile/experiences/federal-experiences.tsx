@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import { Experience, ExperienceInput } from '@/types/experience'
+import { ExperienceInput } from '@/types/experience'
 import { ExperienceForm } from './experience-form'
 import { ExperienceCard } from './experience-card'
 import { useExperiences } from '@/app/hooks/use-experiences'

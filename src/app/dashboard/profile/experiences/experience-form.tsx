@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ExperienceInput } from '@/types/experience'
 import { parseWithLLM } from '@/lib/llm-parser'
-import { parseISO, isValid, format } from 'date-fns'
+import { isValid, format } from 'date-fns'
 
 interface ExperienceFormProps {
 	onSave: () => void
@@ -36,13 +36,15 @@ export function ExperienceForm({
 	const handleFreeformSubmit = async () => {
 		if (!freeformText.trim()) return // avoid empty calls
 
-		const result = await parseWithLLM({
+		const result = await parseWithLLM<ExperienceInput>({
 			provider: 'openai',
 			instanceId: 'gpt-3.5-turbo',
 			promptId: 'federal-experience',
 			input: freeformText.trim(),
 			mode: 'json',
 		})
+
+		console.log('LLM Result:', result)
 
 		if (result && typeof result === 'object') {
 			let isCurrent = false
@@ -56,8 +58,10 @@ export function ExperienceForm({
 
 			const normalized = {
 				...result,
-				start_date: normalizeDate(result.start_date),
-				end_date: isCurrent ? null : normalizeDate(result.end_date),
+				start_date: normalizeDate(result.start_date) || undefined,
+				end_date: isCurrent
+					? undefined
+					: normalizeDate(result.end_date) || undefined,
 				current: isCurrent,
 			}
 

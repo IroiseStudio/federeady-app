@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import FederalExperiences from './experiences/federal-experiences'
 import Skills from './skills/skills'
+import { Card } from '@/app/components/ui/card'
 
 export default function ProfilePage() {
 	const [activeTab, setActiveTab] = useState<'experiences' | 'skills'>(
@@ -38,9 +39,9 @@ export default function ProfilePage() {
 				</button>
 			</div>
 
-			<div className="bg-white rounded-md shadow-md p-6">
+			<Card>
 				{activeTab === 'experiences' ? <FederalExperiences /> : <Skills />}
-			</div>
+			</Card>
 		</div>
 	)
 }

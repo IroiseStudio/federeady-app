@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Experience, ExperienceInput } from '@/types/experience'
-import { supabase } from '@/lib/supabase'
 import { ConfirmDialog } from '@/app/components/dialogs/confirm-dialog'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid'
 import { ExperienceForm } from './experience-form'

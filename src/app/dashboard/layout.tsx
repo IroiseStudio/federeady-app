@@ -51,6 +51,7 @@ export default function DashboardLayout({
 	const tabs = [
 		{ name: 'Home', href: '/dashboard', icon: HomeIcon },
 		{ name: 'Profile', href: '/dashboard/profile', icon: UserIcon },
+		{ name: 'Job Matcher', href: '/dashboard/job-matcher', icon: UserIcon },
 		{ name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon },
 		...(user?.role === UserRole.Admin
 			? [
