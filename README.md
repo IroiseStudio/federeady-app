@@ -36,4 +36,4 @@ Explore the full documentation:
 - 🧠 [LLM Module](docs/llm-parsing-module.md)
 - 🔐 [Authentication](docs/auth.md)
 - 📋 [Profile Builder](docs/profile-builder.md)
-- 🧪 Individual Components (coming soon)
+- 🎯 [Job Matcher](docs/job-matcher.md)
