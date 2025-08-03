@@ -70,8 +70,8 @@ export default function DashboardLayout({
 
 	return (
 		<div className="flex min-h-screen bg-gray-100">
-			<aside className="w-64 bg-white shadow-lg flex flex-col justify-between">
-				<nav className="p-6 space-y-4">
+			<aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg flex flex-col justify-between">
+				<nav className="p-6 space-y-4 overflow-y-auto">
 					<h2 className="text-xl font-bold text-gray-800 mb-4">Dashboard</h2>
 					{tabs.map((tab) => (
 						<Link
@@ -88,16 +88,19 @@ export default function DashboardLayout({
 						</Link>
 					))}
 				</nav>
-				<button
-					onClick={handleLogout}
-					className="m-6 flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-				>
-					<ArrowLeftOnRectangleIcon className="w-5 h-5" />
-					Log Out
-				</button>
+
+				<div className="p-6">
+					<button
+						onClick={handleLogout}
+						className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+					>
+						<ArrowLeftOnRectangleIcon className="w-5 h-5" />
+						Log Out
+					</button>
+				</div>
 			</aside>
 
-			<main className="flex-1">
+			<main className="ml-64 flex-1 bg-gray-100 min-h-screen overflow-y-auto">
 				<div className="h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
 				<div className="p-8">{children}</div>
 			</main>

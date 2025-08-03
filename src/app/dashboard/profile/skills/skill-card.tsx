@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Skill, SkillInput } from '@/types/skill'
 import { useUpdateSkill } from '@/app/hooks/use-update-skill'
 import { useDeleteSkill } from '@/app/hooks/use-delete-skill'
@@ -8,6 +8,8 @@ import { ConfirmDialog } from '@/app/components/dialogs/confirm-dialog'
 import { SkillForm } from './skill-form'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/solid'
 import { Card } from '@/app/components/ui/card'
+import { TagCard } from '@/app/components/ui/tag-card'
+import { getLinkedExperiencesForSkill } from '@/app/services/skills/use-get-linked-experiences-for-skill'
 
 interface SkillCardProps {
 	userId: string | undefined
@@ -31,8 +33,25 @@ export function SkillCard({
 		source: skill.source || 'manual',
 		experience_id: skill.experience_id || '',
 	})
+	const [experienceTitles, setExperienceTitles] = useState<string[]>([])
+
 	const updateSkill = useUpdateSkill(userId)
 	const deleteSkill = useDeleteSkill(userId)
+
+	useEffect(() => {
+		const fetchLinks = async () => {
+			if (!userId || !getExperienceTitle) return
+			const experienceIds = await getLinkedExperiencesForSkill({
+				userId,
+				skillId: skill.id,
+			})
+			const titles = experienceIds
+				.map((id) => getExperienceTitle(id))
+				.filter((title) => title !== 'Unknown')
+			setExperienceTitles(titles)
+		}
+		fetchLinks()
+	}, [userId, skill.id, getExperienceTitle])
 
 	const handleDelete = () => {
 		deleteSkill.mutate(skill.id, {
@@ -58,7 +77,7 @@ export function SkillCard({
 	}
 
 	return (
-		<Card>
+		<Card className="relative">
 			{editMode ? (
 				<SkillForm
 					skill={editedSkill}
@@ -75,12 +94,6 @@ export function SkillCard({
 							<h3 className="text-md font-semibold text-gray-800">
 								{skill.name}
 							</h3>
-							<p className="text-xs text-gray-500">
-								{skill.source === 'llm' ? 'AI' : 'Manual'}
-								{skill.experience_id && getExperienceTitle
-									? ` · ${getExperienceTitle(skill.experience_id)}`
-									: ''}
-							</p>
 						</div>
 						<div className="flex gap-2">
 							<button
@@ -99,6 +112,20 @@ export function SkillCard({
 							</button>
 						</div>
 					</div>
+
+					{experienceTitles.length > 0 && (
+						<div className="flex flex-wrap gap-1 mt-1">
+							{experienceTitles.map((title, i) => (
+								<TagCard key={i} text={title} />
+							))}
+						</div>
+					)}
+
+					{skill.source === 'llm' && (
+						<span className="absolute bottom-2 right-3 text-[10px] italic text-gray-300">
+							AI-generated
+						</span>
+					)}
 
 					{showConfirm && (
 						<ConfirmDialog
