@@ -33,6 +33,7 @@ Explore the full documentation:
 
 - 📘 [Project Overview & Impact](docs/project-overview.md)
 - 🧩 [System Architecture & Components](docs/architecture.md)
+- 🧠 [LLM Module](docs/llm-parsing-module.md)
 - 🔐 [Authentication](docs/auth.md)
 - 📋 [Profile Builder](docs/profile-builder.md)
 - 🧪 Individual Components (coming soon)
