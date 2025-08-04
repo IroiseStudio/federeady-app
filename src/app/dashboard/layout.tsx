@@ -11,10 +11,12 @@ import {
 	UserIcon,
 	Cog6ToothIcon,
 	CpuChipIcon,
+	Bars3Icon,
 } from '@heroicons/react/24/outline'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { UserRole } from '@/types/user'
 import { useUser } from '../hooks/use-user'
+import { Sidebar } from '../components/layout/sidebar'
 
 export default function DashboardLayout({
 	children,
@@ -25,6 +27,7 @@ export default function DashboardLayout({
 	const pathname = usePathname()
 	const [loading, setLoading] = useState(true)
 	const session = useSession()
+	const [sidebarOpen, setSidebarOpen] = useState(false)
 	const { user, loading: userLoading } = useUser()
 
 	useEffect(() => {
@@ -70,39 +73,32 @@ export default function DashboardLayout({
 	}
 
 	return (
-		<div className="flex min-h-screen bg-gray-100">
-			<aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg flex flex-col justify-between">
-				<nav className="p-6 space-y-4 overflow-y-auto">
-					<h2 className="text-xl font-bold text-gray-800 mb-4">Dashboard</h2>
-					{tabs.map((tab) => (
-						<Link
-							key={tab.name}
-							href={tab.href}
-							className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium ${
-								pathname === tab.href
-									? 'bg-blue-100 text-blue-700'
-									: 'text-gray-700 hover:bg-gray-100'
-							}`}
-						>
-							<tab.icon className="w-5 h-5" />
-							{tab.name}
-						</Link>
-					))}
-				</nav>
+		<div className="flex h-screen overflow-hidden bg-gray-100">
+			<Sidebar
+				tabs={tabs}
+				pathname={pathname}
+				isOpen={sidebarOpen}
+				onClose={() => setSidebarOpen(false)}
+				onLogout={handleLogout}
+			/>
 
-				<div className="p-6">
+			{/* Topbar for Mobile */}
+			<div className="md:hidden flex flex-col w-full fixed top-0 left-0 z-30 bg-white shadow-md">
+				<div className="flex items-center justify-between p-4">
 					<button
-						onClick={handleLogout}
-						className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+						onClick={() => setSidebarOpen(true)}
+						className="text-gray-600 focus:outline-none"
 					>
-						<ArrowLeftOnRectangleIcon className="w-5 h-5" />
-						Log Out
+						<Bars3Icon className="w-6 h-6" />
 					</button>
+					<span className="font-semibold text-gray-800">FedEReady</span>
 				</div>
-			</aside>
+				{/* Color bar attached to bottom of topbar */}
+				<div className="h-2 w-full bg-gradient-to-r from-blue-500 to-indigo-600" />
+			</div>
 
-			<main className="ml-64 flex-1 bg-gray-100 min-h-screen overflow-y-auto">
-				<div className="h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
+			<main className="flex-1 bg-gray-100 overflow-y-auto pt-16 md:pt-0">
+				<div className="hidden md:block h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
 				<div className="p-8">{children}</div>
 			</main>
 		</div>
