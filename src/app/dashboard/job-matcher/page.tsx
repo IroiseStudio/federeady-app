@@ -19,7 +19,7 @@ export default function JobMatcherPage() {
 	const userSkills = skills?.map((s) => s.name) || []
 
 	return (
-		<div className="min-h-screen bg-gray-100 p-6">
+		<div className="min-h-screen bg-gray-100 py-6 px-4 sm:px-6 md:px-8">
 			<h1 className="text-2xl font-bold text-gray-800 mb-6">Job Matcher</h1>
 
 			<div className="flex gap-2 border-b border-gray-300 mb-6">

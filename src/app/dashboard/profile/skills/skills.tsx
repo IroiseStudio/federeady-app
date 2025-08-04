@@ -190,7 +190,7 @@ export default function Skills() {
 	}
 
 	return (
-		<div className="min-h-screen p-6">
+		<div className="min-h-screen py-6 px-4 sm:px-6 md:px-8">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-lg font-semibold text-gray-800">Your Skills</h2>
 				<div className="flex gap-2">

@@ -54,6 +54,7 @@ export function Sidebar({
 						<Link
 							key={tab.name}
 							href={tab.href}
+							onClick={onClose}
 							className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium ${
 								pathname === tab.href
 									? 'bg-blue-100 text-blue-700'

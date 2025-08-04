@@ -99,7 +99,7 @@ export default function DashboardLayout({
 
 			<main className="flex-1 bg-gray-100 overflow-y-auto pt-16 md:pt-0">
 				<div className="hidden md:block h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
-				<div className="p-8">{children}</div>
+				<div className="px-4 py-8 sm:px-6 md:px-8">{children}</div>
 			</main>
 		</div>
 	)

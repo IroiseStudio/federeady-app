@@ -57,7 +57,7 @@ export default function FederalExperiences() {
 	}
 
 	return (
-		<div className="min-h-screen p-6">
+		<div className="min-h-screen py-6 px-4 sm:px-6 md:px-8">
 			<h2 className="text-lg font-semibold text-gray-800 mb-4">
 				Your Federal Experience
 			</h2>
