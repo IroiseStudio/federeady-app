@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import FederalExperiences from './experiences/federal-experiences'
 import Skills from './skills/skills'
 import { Card } from '@/app/components/ui/card'

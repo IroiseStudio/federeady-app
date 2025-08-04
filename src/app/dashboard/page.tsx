@@ -11,9 +11,17 @@ import {
 import { StatCard } from '../components/ui/stat-card'
 import { ActionCard } from '../components/ui/action-card'
 import { useRouter } from 'next/navigation'
+import { useUser } from '@/app/hooks/use-user'
+import { useExperiences } from '@/app/hooks/use-experiences'
+import { useSkills } from '@/app/hooks/use-skills'
+import { useMatches } from '@/app/hooks/use-matchs'
 
 export default function DashboardPage() {
 	const router = useRouter()
+	const { user } = useUser()
+	const { data: experiences = [] } = useExperiences(user?.id)
+	const { data: skills = [] } = useSkills(user?.id)
+	const { data: jobMatches = [] } = useMatches(user?.id)
 
 	return (
 		<div className="space-y-8 text-gray-800">
@@ -27,9 +35,17 @@ export default function DashboardPage() {
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-				<StatCard icon={BriefcaseIcon} label="Experiences" value={3} />
-				<StatCard icon={SparklesIcon} label="Skills" value={17} />
-				<StatCard icon={HeartIcon} label="Saved Matches" value={5} />
+				<StatCard
+					icon={BriefcaseIcon}
+					label="Experiences"
+					value={experiences.length}
+				/>
+				<StatCard icon={SparklesIcon} label="Skills" value={skills.length} />
+				<StatCard
+					icon={HeartIcon}
+					label="Saved Matches"
+					value={jobMatches.length}
+				/>
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
