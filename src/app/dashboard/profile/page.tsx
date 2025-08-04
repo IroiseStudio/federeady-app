@@ -4,11 +4,18 @@ import { useState } from 'react'
 import FederalExperiences from './experiences/federal-experiences'
 import Skills from './skills/skills'
 import { Card } from '@/app/components/ui/card'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function ProfilePage() {
-	const [activeTab, setActiveTab] = useState<'experiences' | 'skills'>(
-		'experiences'
-	)
+	const router = useRouter()
+	const searchParams = useSearchParams()
+	const tabParam = searchParams.get('tab')
+	const activeTab = tabParam === 'skills' ? 'skills' : 'experiences'
+
+	const goToTab = (tab: 'experiences' | 'skills') => {
+		router.push(`/dashboard/profile?tab=${tab}`)
+	}
 
 	return (
 		<div className="min-h-screen bg-gray-100 py-6 px-4 sm:px-6 md:px-8">
@@ -16,7 +23,7 @@ export default function ProfilePage() {
 
 			<div className="flex gap-2 border-b border-gray-300 mb-6">
 				<button
-					onClick={() => setActiveTab('experiences')}
+					onClick={() => goToTab('experiences')}
 					className={`px-4 py-2 text-sm font-medium rounded-t-md 
             ${
 							activeTab === 'experiences'
@@ -27,7 +34,7 @@ export default function ProfilePage() {
 					Federal Experiences
 				</button>
 				<button
-					onClick={() => setActiveTab('skills')}
+					onClick={() => goToTab('skills')}
 					className={`px-4 py-2 text-sm font-medium rounded-t-md 
             ${
 							activeTab === 'skills'

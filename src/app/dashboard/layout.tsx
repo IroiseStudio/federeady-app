@@ -4,7 +4,6 @@ import { useSession } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
 
 import {
 	HomeIcon,
@@ -13,7 +12,6 @@ import {
 	CpuChipIcon,
 	Bars3Icon,
 } from '@heroicons/react/24/outline'
-import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import { UserRole } from '@/types/user'
 import { useUser } from '../hooks/use-user'
 import { Sidebar } from '../components/layout/sidebar'
@@ -52,7 +50,7 @@ export default function DashboardLayout({
 	}
 
 	const tabs = [
-		{ name: 'Home', href: '/dashboard', icon: HomeIcon },
+		{ name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
 		{ name: 'Profile', href: '/dashboard/profile', icon: UserIcon },
 		{ name: 'Job Matcher', href: '/dashboard/job-matcher', icon: UserIcon },
 		{ name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon },
@@ -91,7 +89,7 @@ export default function DashboardLayout({
 					>
 						<Bars3Icon className="w-6 h-6" />
 					</button>
-					<span className="font-semibold text-gray-800">FedEReady</span>
+					<span className="font-semibold text-gray-800">Fed-E-Ready</span>
 				</div>
 				{/* Color bar attached to bottom of topbar */}
 				<div className="h-2 w-full bg-gradient-to-r from-blue-500 to-indigo-600" />

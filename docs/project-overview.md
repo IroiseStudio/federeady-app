@@ -14,6 +14,7 @@ FedEReady helps federal employees uncover the true value of their experience.
 ## 🧩 What Problem Does This Solve?
 
 Federal resumes often:
+
 - Use unfamiliar jargon
 - Don’t map clearly to private-sector roles
 - Miss out on highlighting transferable skills
@@ -24,13 +25,13 @@ FedEReady bridges that gap, making skills more visible and reusable.
 
 ## 🛠 Tech Highlights (With Intent)
 
-| Area          | Tech Used       | Why It Matters                                  |
-|---------------|------------------|--------------------------------------------------|
-| Frontend      | Next.js, Tailwind | Fast, clean UI; SSR-ready for future scaling     |
-| Auth          | Supabase         | Easy OAuth, no custom backend needed             |
-| AI Integration| OpenAI API       | Uses LLMs for skill extraction + resume match    |
-| DB + API      | Supabase (Postgres) | Fast, structured, supports RLS for auth          |
-| Hosting       | Vercel           | Free-tier friendly, CI/CD built-in               |
+| Area           | Tech Used           | Why It Matters                                |
+| -------------- | ------------------- | --------------------------------------------- |
+| Frontend       | Next.js, Tailwind   | Fast, clean UI; SSR-ready for future scaling  |
+| Auth           | Supabase            | Easy OAuth, no custom backend needed          |
+| AI Integration | OpenAI API          | Uses LLMs for skill extraction + resume match |
+| DB + API       | Supabase (Postgres) | Fast, structured, supports RLS for auth       |
+| Hosting        | Vercel              | Free-tier friendly, CI/CD built-in            |
 
 ---
 
@@ -46,6 +47,6 @@ FedEReady bridges that gap, making skills more visible and reusable.
 
 - [x] Login system (email + GitHub)
 - [x] Profile builder: federal experience + skills
-- [ ] Job matcher: paste JD, see matched skills
-- [ ] Save/share results
+- [x] Job matcher: paste JD, see matched skills
+- [x] Save results
 - [ ] Responsive polish for mobile

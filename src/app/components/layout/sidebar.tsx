@@ -49,7 +49,7 @@ export function Sidebar({
 			>
 				{/* Top nav + links */}
 				<nav className="p-6 space-y-4 overflow-y-auto flex-1">
-					<h2 className="text-xl font-bold text-gray-800 mb-4">Dashboard</h2>
+					<h2 className="text-xl font-bold text-gray-800 mb-4">Fed-E-Ready</h2>
 					{tabs.map((tab) => (
 						<Link
 							key={tab.name}
